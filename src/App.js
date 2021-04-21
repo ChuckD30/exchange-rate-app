@@ -1,23 +1,38 @@
-import logo from './logo.svg';
+import React, { useEffect, useState } from "react"
+import axios from "axios"
+import CurrencyExchangeList from './components/CurrencyExchangeList'
+import CurrencyInput from './components/CurrencyInput'
 import './App.css';
 
+
 function App() {
+
+  const [rateArray, setRateArray] = useState([]);
+
+  const [addRate, setAddRate] = useState([])
+
+  const addToExchangeList = (selectedRate) => {
+      setAddRate([...addRate.filter(rate => rate !== selectedRate), selectedRate])
+  }
+
+  useEffect(()=>{
+    const rates = [];
+    axios.get("http://data.fixer.io/api/latest?access_key=d5a3387df457621cfb4965d44d001c57")
+         .then((res) => {
+          for (const [key, value] of Object.entries(res.data.rates)) {
+              rates.push({currency:key, currentRate:value})
+          }
+          setRateArray([...rateArray, ...rates])
+         })
+         .catch(err => console.log(err))
+    },[])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <div className="currency-detail">
+        <CurrencyInput rates={rateArray} addToExchangeList={addToExchangeList} />
+      </div>
+        <CurrencyExchangeList addedRates={addRate} />
     </div>
   );
 }

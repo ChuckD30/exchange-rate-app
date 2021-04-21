@@ -1,0 +1,24 @@
+.currency-detail {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  } 
+
+select {
+    background-color: #F2F9FF;
+    border: 1px solid #797A7D;
+    border-radius: 5px;
+    padding: 15px;
+    color: #0274E6;
+    cursor: pointer;
+}
+
+button {
+    margin: 20px;
+    background-color: #8BA6F4;
+    border: none;
+    border-radius: 15px;
+    padding: 20px;
+    color: #FFF;
+    cursor: pointer;
+}
